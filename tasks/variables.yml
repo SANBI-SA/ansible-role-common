@@ -1,0 +1,4 @@
+---
+# Variable configuration.
+- name: Include OS-specific variables for Ubuntu based machines.
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version}}.yml"
