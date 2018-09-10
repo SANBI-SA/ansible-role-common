@@ -1,0 +1,5 @@
+freeipa_pass:
+freeipa_domain: sanbi.ac.za
+freeipa_server_hostname: freeipa.sanbi.ac.za
+freeipa_realm: SANBI.AC.ZA
+freeipa_user: admin
