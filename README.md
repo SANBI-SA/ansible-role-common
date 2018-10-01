@@ -10,7 +10,7 @@ In it's currect state this role will set up:
 
 ## To use:
 
-1. Set `freeipa_pass` in `Freeipa.yml` to admin pass for your FreeIPA server.
+1. Set `freeipa_pass` in `Freeipa.yml` to admin pass for your FreeIPA server OR add `freeipa_pass` to your playbook.
 2. Create a playbook that includes this role. E.g.:
    ```shell
    - hosts: all
