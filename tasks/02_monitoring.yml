@@ -9,7 +9,7 @@
         owner: monitor
     - name: Download latest node-exporter binary
       unarchive:
-        src: "https://github.com/prometheus/node_exporter/releases/download/v{ node_exporter_version }/node_exporter-{ node_exporter_version }.linux-amd64.tar.gz"
+        src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
         remote_src: yes
         dest: /opt/node-exporter
         owner: monitor
