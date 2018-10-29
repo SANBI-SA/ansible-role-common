@@ -4,14 +4,14 @@
   block:
     - name: Ensure node-exporter directory exists
       file:
-        path: /opt/node-exporter
+        path: /opt/node_exporter
         state: directory
         owner: monitor
     - name: Download latest node-exporter binary
       unarchive:
         src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
         remote_src: yes
-        dest: /opt/node-exporter
+        dest: /opt/node_exporter
         owner: monitor
     - name: Create service file
       template:
