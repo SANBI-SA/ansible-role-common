@@ -7,3 +7,5 @@
 - include_tasks: checks.yml
 - include_tasks: 00_software.yml
 - include_tasks: 01_freeipa.yml
+- include_tasks: 02_monitoring
+  when: enable_monitoring is True

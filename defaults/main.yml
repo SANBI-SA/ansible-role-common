@@ -10,5 +10,6 @@ node_exporter_version: 0.16.0
 
 
 # Flags
+enable_monitoring: True       # Enable/disable all of the following. 
 
 enable_node_exporter: True
