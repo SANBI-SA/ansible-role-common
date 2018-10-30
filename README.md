@@ -3,6 +3,7 @@
 In it's currect state this role will set up:
   - Packages for Ceph filesystem/RBD access
   - FreeIPA client and join the SANBI domain
+  - Install node_exporter for monitoring
 
 ## Requirements:
 - FreeIPA server installed and available
@@ -10,7 +11,7 @@ In it's currect state this role will set up:
 
 ## To use:
 
-1. Set `freeipa_pass` in `Freeipa.yml` to admin pass for your FreeIPA server OR add `freeipa_pass` to your playbook.
+1. Set `freeipa_user` and `freeipa_pass` in `Freeipa.yml` to admin user and pass for your FreeIPA server OR add `freeipa_pass` to your playbook.
 2. Create a playbook that includes this role. E.g.:
    ```shell
    - hosts: all
