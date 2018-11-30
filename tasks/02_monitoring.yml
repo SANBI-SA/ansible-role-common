@@ -23,4 +23,4 @@
         daemon_reload: yes
         enabled: yes
         state: started
-  when: enable_node_exporter
+  when: not ( (enable_node_exporter is not defined) or (not enable_node_exporter) )
