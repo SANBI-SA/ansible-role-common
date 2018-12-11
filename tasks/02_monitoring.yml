@@ -3,6 +3,11 @@
 - name: Install node-exporter
   block:
 
+    - name: Ensure unzip utility is installed
+      apt:
+        name: unzip
+        state: present
+
     - name: Ensure node-exporter directory exists
       file:
         path: /opt/node_exporter
@@ -20,7 +25,6 @@
         src: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
         dest: /opt/
         remote_src: yes
-
  
     - name: Create service file
       template:
