@@ -3,35 +3,51 @@
 - name: Install node-exporter
   block:
 
-    - name: Ensure unzip utility is installed
-      apt:
-        name: unzip
-        state: present
-
-    - name: Ensure node-exporter directory exists
-      file:
-        path: /opt/node_exporter
-        state: directory
-        owner: monitor
- 
     - name: Download latest node-exporter binary
-      unarchive:
+      tags:
+        - download
+      local_action:
+        module: unarchive
         src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+        dest: /tmp/
         remote_src: yes
+      run_once: True
+
+    - name: Distribute node-exporter
+      tags:
+        - download
+      copy:
+        src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
         dest: /opt/node_exporter
         owner: monitor
+        mode: u=rwx,g=rx,o=rx
+        
     - name: Install Consul
-      unarchive:
+      tags:
+        - download
+      local_action:
+        module: unarchive
         src: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
-        dest: /opt/
+        dest: /tmp/
         remote_src: yes
+      run_once: True
  
-    - name: Create service file
+    - name: Distribute consul
+      tags:
+        - download
+      copy:
+        src: "/tmp/consul"
+        dest: /opt/consul
+
+    - name: Create service files
       template:
-        src: "{{ role_path }}/files/node_exporter.service.j2"
-        dest: /etc/systemd/system/node_exporter.service
+        src: "{{ role_path }}/files/{{ item }}.j2"
+        dest: /etc/systemd/system/{{ item }}
+      loop:
+        - node_exporter.service
+        - consul.service
  
-    - name: Reload services
+    - name: Reload node_exporter services
       systemd:
         name: node_exporter.service
         daemon_reload: yes
