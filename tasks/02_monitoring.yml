@@ -47,13 +47,6 @@
         - node_exporter.service
         - consul.service
  
-    - name: Reload node_exporter services
-      systemd:
-        name: node_exporter.service
-        daemon_reload: yes
-        enabled: yes
-        state: started
- 
     - name: Create consul directory
       file:
         path: /opt/consul.d/
@@ -63,5 +56,15 @@
       template:
         src: "{{ role_path }}/files/services.json.j2"
         dest: /opt/consul.d/services.json
+
+    - name: Reload services
+      systemd:
+        name: {{ item }}
+        daemon_reload: yes
+        enabled: yes
+        state: started
+      loop:
+        - node_exporter.service
+        - consul.service
   
   when: not ( (enable_node_exporter is not defined) or (not enable_node_exporter) )
