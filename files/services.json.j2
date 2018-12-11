@@ -1,0 +1,9 @@
+{
+	"service": {
+        {% if enable_node_exporter %}
+		"name": "node_exporter",
+	       	"tags": [ {{ '","'.join(group_names) }} ],
+	       	"port": 9100
+        {% endif %}
+	}
+}
