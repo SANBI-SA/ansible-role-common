@@ -2,25 +2,69 @@
 
 - name: Install node-exporter
   block:
-    - name: Ensure node-exporter directory exists
-      file:
-        path: /opt/node_exporter
-        state: directory
-        owner: monitor
+
     - name: Download latest node-exporter binary
-      unarchive:
+      tags:
+        - download
+      local_action:
+        module: unarchive
         src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+        dest: /tmp/
         remote_src: yes
+      run_once: True
+
+    - name: Distribute node-exporter
+      tags:
+        - download
+      copy:
+        src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
         dest: /opt/node_exporter
         owner: monitor
-    - name: Create service file
+        mode: u=rwx,g=rx,o=rx
+        
+    - name: Install Consul
+      tags:
+        - download
+      local_action:
+        module: unarchive
+        src: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+        dest: /tmp/
+        remote_src: yes
+      run_once: True
+ 
+    - name: Distribute consul
+      tags:
+        - download
+      copy:
+        src: "/tmp/consul"
+        dest: /opt/consul
+
+    - name: Create service files
       template:
-        src: "{{ role_path }}/files/node_exporter.service.j2"
-        dest: /etc/systemd/system/node_exporter.service
+        src: "{{ role_path }}/files/{{ item }}.j2"
+        dest: /etc/systemd/system/{{ item }}
+      loop:
+        - node_exporter.service
+        - consul.service
+ 
+    - name: Create consul directory
+      file:
+        path: /opt/consul.d/
+        state: directory
+ 
+    - name: Template out consul data
+      template:
+        src: "{{ role_path }}/files/services.json.j2"
+        dest: /opt/consul.d/services.json
+
     - name: Reload services
       systemd:
-        name: node_exporter.service
+        name: {{ item }}
         daemon_reload: yes
         enabled: yes
         state: started
-  when: enable_node_exporter
+      loop:
+        - node_exporter.service
+        - consul.service
+  
+  when: not ( (enable_node_exporter is not defined) or (not enable_node_exporter) )
