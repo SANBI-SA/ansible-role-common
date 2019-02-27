@@ -7,7 +7,7 @@
             "port": 9100
         },
         {% endif %}
-        {% if headnode %}
+        {% if headnode is defined %}
         {
             "name": "slurm_exporter",
             "tags": [ "{{ group_names | join('\", \"') }}" ],
