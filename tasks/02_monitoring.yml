@@ -59,7 +59,7 @@
 
     - name: Reload services
       systemd:
-        name: {{ item }}
+        name: "{{ item }}"
         daemon_reload: yes
         enabled: yes
         state: started

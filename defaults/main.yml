@@ -1,6 +1,6 @@
 # FreeIPA
-freeipa_user: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:user)}}"
-freeipa_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:password)}}"
+freeipa_user: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:user')}}"
+freeipa_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:password')}}"
 freeipa_domain: sanbi.ac.za
 freeipa_server_hostname: freeipa.sanbi.ac.za
 freeipa_realm: SANBI.AC.ZA
