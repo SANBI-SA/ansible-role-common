@@ -2,6 +2,12 @@
 
 ---
 
+## TODO
+
+[ ] Add download of slurm exporter
+
+## General
+
 This role is used to set up the basic packages and tools required for each server/instance at SANBI.
 
 In it's currect state this role will set up:

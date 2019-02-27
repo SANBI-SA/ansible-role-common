@@ -1,9 +1,18 @@
 {
-    "service": {
-    {% if enable_node_exporter %}
-        "name": "node_exporter",
-        "tags": [ "{{ group_names | join('\", \"') }}" ],
-        "port": 9100
-    {% endif %}
-    }
+    services: [
+        {% if enable_node_exporter %}
+        {
+            "name": "node_exporter",
+            "tags": [ "{{ group_names | join('\", \"') }}" ],
+            "port": 9100
+        },
+        {% endif %}
+        {% if headnode %}
+        {
+            "name": "slurm_exporter",
+            "tags": [ "{{ group_names | join('\", \"') }}" ],
+            "port": 8080
+        },
+        {% endif %}
+    ]
 }
