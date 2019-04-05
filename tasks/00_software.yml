@@ -1,5 +1,9 @@
 ---
 
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+
 - name: Add Ceph repo keyring
   apt_key:
     url: "{{ ceph_repo_sig }}"
@@ -16,6 +20,17 @@
   with_items:
     - "{{ ceph_packages }}"
     - unzip
+    - ntp
+
+- name: Copy ntp config
+  copy:
+    src: "{{ role_path }}/files/ntp.conf"
+    dest: /etc/ntp/ntp.conf
+
+- name: Restart ntp
+  service:
+    name: ntp
+    state: restarted
 
 - name: Install pip3
   apt:
