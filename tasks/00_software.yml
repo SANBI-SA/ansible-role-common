@@ -25,7 +25,7 @@
 - name: Copy ntp config
   copy:
     src: "{{ role_path }}/files/ntp.conf"
-    dest: /etc/ntp/ntp.conf
+    dest: /etc/ntp.conf
 
 - name: Restart ntp
   service:
