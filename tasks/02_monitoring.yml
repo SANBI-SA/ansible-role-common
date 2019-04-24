@@ -21,7 +21,13 @@
         dest: /opt/node_exporter
         owner: monitor
         mode: u=rwx,g=rx,o=rx
-        
+
+    - name: Assert that var 'consul_server_addr' is set
+      assert:
+        that:
+          - "consul_server_addr != ''"
+        fail_msg: "'consul_server_addr' must be set to a valid server address"
+
     - name: Install Consul
       tags:
         - download
