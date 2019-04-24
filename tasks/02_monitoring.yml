@@ -62,6 +62,11 @@
       template:
         src: "{{ role_path }}/files/services.json.j2"
         dest: /opt/consul.d/services.json
+    
+    - name: Ensure consul binary executable
+      file:
+        dest: /opt/consul
+        mode: a+x
 
     - name: Reload services
       systemd:
