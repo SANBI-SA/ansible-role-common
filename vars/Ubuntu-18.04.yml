@@ -1,4 +1,4 @@
-ntp_service: ntpd
+ntp_service: ntp
 
 ceph_repo_sig: https://download.ceph.com/keys/release.asc
 ceph_packages:
