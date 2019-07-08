@@ -1,3 +1,5 @@
+ntp_service: ntpd
+
 ceph_repo_sig: https://download.ceph.com/keys/release.asc
 ceph_packages:
   - ceph-common

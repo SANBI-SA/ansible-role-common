@@ -2,7 +2,6 @@
 
 - name: Install node-exporter
   block:
-
     - name: Download latest node-exporter binary
       tags:
         - download

@@ -7,5 +7,9 @@
 - include_tasks: checks.yml
 - include_tasks: 00_software.yml
 - include_tasks: 01_freeipa.yml
+  when: 
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 - include_tasks: 02_monitoring.yml
-  when: enable_monitoring
+  when: 
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - enable_monitoring
