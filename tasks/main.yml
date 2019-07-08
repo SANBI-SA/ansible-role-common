@@ -13,3 +13,17 @@
   when: 
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - enable_monitoring
+- tasks:
+    - name: Bootstrap FreeBSD
+      block:
+        - name: Create user
+          group:
+            gid: 20000
+            name: adm
+            state: present
+        - name: Create directory
+          file:
+            path: /etc/rsyslog.d
+            state: directory
+      when: ansible_distribution == 'FreeBSD'
+      
