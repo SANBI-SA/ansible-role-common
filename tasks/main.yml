@@ -16,10 +16,15 @@
 
 - name: Bootstrap FreeBSD
   block:
-    - name: Create user
+    - name: Create group adm
       group:
         gid: 20000
         name: adm
+        state: present
+    - name: Create grp root
+      group:
+        gid: 20001
+        name: root
         state: present
     - name: Create directory
       file:
