@@ -14,42 +14,29 @@
       apt_repository:
         repo: "deb https://download.ceph.com/debian-luminous/ {{ ansible_distribution_release }} main"
 
-    # TODO: figure out how to implement apt with list
     - name: Install base software set
       apt:
-        name: "{{ item }}"
+        name: [
+            "{{ ceph_packages }}",
+            unzip,
+            ntp"
+          ]
         state: present
-      with_items:
-        - "{{ ceph_packages }}"
-        - unzip
-        - ntp
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Copy ntp config
   copy:
     src: "{{ role_path }}/files/ntp.conf"
     dest: /etc/ntp.conf
+  notify:
+    - restart ntpd
 
-- name: Restart ntp
-  service:
-    name: "{{ ntp_service }}"
-    state: restarted
-
-- name: Install pip3
+- name: Install pip
   apt:
-    name: python3-pip
+    name: "python{{ '' if ansible_python_version.startswith('2') else '3' }}-pip"
     state: present
   when: 
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-    - ansible_python_version.startswith("3")
-
-- name: Install pip2
-  apt:
-    name: python-pip
-    state: present
-  when: 
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-    - ansible_python_version.startswith("2")
 
 - name: Install hvac for Hashicorp Vault support
   pip:

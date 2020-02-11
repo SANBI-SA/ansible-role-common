@@ -6,6 +6,7 @@ freeipa_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:password'
 freeipa_domain: sanbi.ac.za
 freeipa_server_hostname: freeipa.sanbi.ac.za
 freeipa_realm: SANBI.AC.ZA
+freeipa_force_join: true  #attempts un- and re-enroll to FreeIPA server
 
 # node_exporter
 node_exporter_version: 0.16.0
