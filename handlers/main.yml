@@ -8,11 +8,11 @@
     name: "node_exporter.service"
     daemon_reload: yes
     enabled: yes
-    state: started
+    state: restarted
 
 - name: Systemd restart consul
   systemd:
     name: "consul.service"
     daemon_reload: yes
     enabled: yes
-    state: started
+    state: restarted
