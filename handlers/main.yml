@@ -2,3 +2,17 @@
   service:
     name: "{{ ntp_service }}"
     state: restarted
+
+- name: Systemd restart node_exporter
+  systemd:
+    name: "node_exporter.service"
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: Systemd restart consul
+  systemd:
+    name: "consul.service"
+    daemon_reload: yes
+    enabled: yes
+    state: started

@@ -12,8 +12,9 @@
   changed_when: False
 
 - name: Join FreeIPA
-  shell: ipa-client-install --hostname="{{ inventory_hostname }}" --domain="{{ freeipa_domain }}" --server="{{ freeipa_server_hostname }}" --realm="{{ freeipa_realm }}" -p "{{ freeipa_user }}" --password="{{ freeipa_pass }}" --force-join --unattended
+  shell: ipa-client-install --hostname="{{ inventory_hostname }}" --domain="{{ freeipa_domain }}" --server="{{ freeipa_server_hostname }}" --realm="{{ freeipa_realm }}" -p "{{ freeipa_user }}" --password="{{ freeipa_pass }}" --unattended
   when: stat_result.stat.exists == False
 
-# - name: Forcefully rejoin FreeIPA
-#   --force-join
+- name: Forcefully rejoin FreeIPA
+  shell: ipa-client-install --hostname="{{ inventory_hostname }}" --domain="{{ freeipa_domain }}" --server="{{ freeipa_server_hostname }}" --realm="{{ freeipa_realm }}" -p "{{ freeipa_user }}" --password="{{ freeipa_pass }}" --force-join -f --unattended
+  when: (stat_result.stat.exists == True) and (freeipa_force_join == True)
