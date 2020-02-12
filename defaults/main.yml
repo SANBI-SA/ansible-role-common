@@ -1,4 +1,5 @@
 timezone: Africa/Johannesburg
+force_hostname_override: True
 
 # FreeIPA
 freeipa_user: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:user')}}"

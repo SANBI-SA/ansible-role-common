@@ -1,8 +1,13 @@
 ---
 
 - name: Check if server hostname is FQDN
-  hostname:
-    name: '{{ ansible_fqdn }}'
+  # hostname:
+  #   name: '{{ ansible_fqdn }}'
   fail:
     msg: Hostname is not FQDN. This won't work with FreeIPA
-  when: not ("." in ansible_hostname)
+  when: not ( ("." in ansible_hostname) or force_hostname_override )
+
+- name: Force set hostname to inventory name
+  hostname:
+    name: '{{ inventory_hostname }}'
+  when: force_hostname_override
