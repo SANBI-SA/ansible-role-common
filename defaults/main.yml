@@ -7,7 +7,7 @@ freeipa_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/freeipa:password'
 freeipa_domain: sanbi.ac.za
 freeipa_server_hostname: freeipa.sanbi.ac.za
 freeipa_realm: SANBI.AC.ZA
-freeipa_force_join: True  #attempts un- and re-enroll to FreeIPA server
+freeipa_force_join: False  #attempts un- and re-enroll to FreeIPA server
 
 # node_exporter
 node_exporter_version: 0.16.0
@@ -16,11 +16,10 @@ node_exporter_version: 0.16.0
 consul_version: 1.4.4
 consul_server_addr: ""
 
-
-# Flags
+# Monitoring
 enable_monitoring: True       # Enable/disable all of the following. 
 
 enable_node_exporter: True
-enable_consul: True
+enable_consul_agent: True
 
 
