@@ -19,6 +19,7 @@
         name: "{{ software_packages }}"
         state: present
         autoclean: yes
+      changed_when: false
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Copy ntp config
