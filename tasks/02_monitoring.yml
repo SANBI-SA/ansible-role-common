@@ -3,7 +3,7 @@
 - name: Install node-exporter
   block:
 
-    - name: Download latest node-exporter binary
+    - name: Download node-exporter {{ node_exporter_version }} binary
       tags:
         - download
       local_action:
@@ -28,7 +28,19 @@
           - "consul_server_addr != ''"
         fail_msg: "'consul_server_addr' must be set to a valid server address"
 
-    - name: Install Consul
+    - name: Create service files
+      template:
+        src: "{{ role_path }}/files/node_exporter.service.j2"
+        dest: /etc/systemd/system/node_exporter.service
+      notify:
+        - Systemd restart node_exporter
+        
+  when: not ( (enable_node_exporter is not defined) or (not enable_node_exporter) )
+
+- name: Install Consul
+  block:
+
+    - name: Download Consul {{ consul_version }} binary
       tags:
         - download
       local_action:
@@ -45,14 +57,6 @@
         src: "/tmp/consul"
         dest: /opt/consul
 
-    - name: Create service files
-      template:
-        src: "{{ role_path }}/files/{{ item }}.j2"
-        dest: /etc/systemd/system/{{ item }}
-      loop:
-        - node_exporter.service
-        - consul.service
- 
     - name: Create consul directory
       file:
         path: /opt/consul.d/
@@ -67,15 +71,12 @@
       file:
         dest: /opt/consul
         mode: a+x
+    
+    - name: Create service files
+      template:
+        src: "{{ role_path }}/files/consul.service.j2"
+        dest: /etc/systemd/system/consul.service
+      notify:
+        - Systemd restart consul
 
-    - name: Reload services
-      systemd:
-        name: "{{ item }}"
-        daemon_reload: yes
-        enabled: yes
-        state: started
-      loop:
-        - node_exporter.service
-        - consul.service
-  
-  when: not ( (enable_node_exporter is not defined) or (not enable_node_exporter) )
+  when: not ( (enable_consul is not defined) or (not enable_consul) )

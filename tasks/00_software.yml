@@ -4,47 +4,43 @@
   timezone:
     name: "{{ timezone }}"
 
-- name: Add Ceph repo keyring
-  apt_key:
-    url: "{{ ceph_repo_sig }}"
+- name: Ensure dependencies for Deb
+  block:
+    - name: Add Ceph repo keyring
+      apt_key:
+        url: "{{ ceph_repo_sig }}"
 
-- name: Add Ceph repo
-  apt_repository:
-    repo: "deb https://download.ceph.com/debian-luminous/ {{ ansible_distribution_release }} main"
+    - name: Add Ceph repo
+      apt_repository:
+        repo: "deb https://download.ceph.com/debian-luminous/ {{ ansible_distribution_release }} main"
 
-# TODO: figure out how to implement apt with list
-- name: Install base software set
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ ceph_packages }}"
-    - unzip
-    - ntp
+    - name: Install base software set
+      apt:
+        name: [
+            "{{ ceph_packages }}",
+            unzip,
+            ntp"
+          ]
+        state: present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Copy ntp config
   copy:
     src: "{{ role_path }}/files/ntp.conf"
     dest: /etc/ntp.conf
+  notify:
+    - restart ntpd
 
-- name: Restart ntp
-  service:
-    name: ntp
-    state: restarted
-
-- name: Install pip3
+- name: Install pip
   apt:
-    name: python3-pip
+    name: "python{{ '' if ansible_python_version.startswith('2') else '3' }}-pip"
     state: present
-  when: ansible_python_version.startswith("3")
-
-- name: Install pip2
-  apt:
-    name: python-pip
-    state: present
-  when: ansible_python_version.startswith("2")
+  when: 
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Install hvac for Hashicorp Vault support
   pip:
     name: hvac
     state: present
+  when: 
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'

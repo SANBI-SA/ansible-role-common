@@ -2,7 +2,7 @@
 
 - name: Check if server hostname is FQDN
   hostname:
-    name: '{{ inventory_hostname }}'
-#  fail:
-#    msg: Hostname is not FQDN. This won't work with FreeIPA
-#  when: not ("." in ansible_hostname)
+    name: '{{ ansible_fqdn }}'
+  fail:
+    msg: Hostname is not FQDN. This won't work with FreeIPA
+  when: not ("." in ansible_hostname)
