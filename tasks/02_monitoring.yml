@@ -79,4 +79,4 @@
       notify:
         - Systemd restart consul
 
-  when: not ( (enable_consul is not defined) or (not enable_consul) )
+  when: not ( (enable_consul_agent is not defined) or (not enable_consul_agent) )
