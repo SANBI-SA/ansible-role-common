@@ -1,0 +1,11 @@
+galaxy_info:
+  role_name: sanbi-sa.common
+  author: Eugene de Beste
+  description: Standard SANBI server setup
+  company: South African National Bioinformatics Institute, University of the Western Cape
+  license: MIT
+  
+  min_ansible_version: 1.2
+  galaxy_tags: []
+
+dependencies: []
