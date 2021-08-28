@@ -6,3 +6,5 @@ software_packages:
   - ceph-common
   - unzip
   - ntp
+
+ceph-release: luminous

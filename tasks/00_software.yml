@@ -12,7 +12,7 @@
 
     - name: Add Ceph repo
       apt_repository:
-        repo: "deb https://download.ceph.com/debian-luminous/ {{ ansible_distribution_release }} main"
+        repo: "deb https://download.ceph.com/debian-{{ ceph-release }}/ {{ ansible_distribution_release }} main"
 
     - name: Install base software set
       apt:
