@@ -1,0 +1,8 @@
+ntp_service: ntp
+
+ceph_repo_sig: https://download.ceph.com/keys/release.asc
+
+software_packages:
+  - ceph-common
+  - unzip
+  - ntp
