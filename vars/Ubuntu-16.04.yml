@@ -7,4 +7,4 @@ software_packages:
   - unzip
   - ntp
 
-  ceph-release: luminous
+  ceph_release: luminous
